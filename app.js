@@ -23,7 +23,7 @@ mongoose.connection.once('open', () => {
     rating: 7,
     review: "Very Good fruit"
   });
-  
+
   const kiwi = new Fruit({
     name: "Kiwi",
     rating: 6,
@@ -42,11 +42,22 @@ mongoose.connection.once('open', () => {
     review: "Healthiest fruit ever."
   });
 
-  Fruit.insertMany([apple,kiwi, orange, banana]).then(function(){
-    console.log("Data inserted")  // Success
-  }).catch(function(error){
-    console.log(error)
-    // Now you can close the connection
-    mongoose.connection.close();
-  });
+  // Inserting data using insertMany
+  // Fruit.insertMany([apple, kiwi, orange, banana]).then(function(fruits) {
+  //   console.log("Data inserted", fruits); // Success
+  //   mongoose.connection.close(); // Close the connection
+  // }).catch(function(error) {
+  //   console.log(error);
+  //   mongoose.connection.close(); // Close the connection on error as well
+  // });
+
+  // Finding and logging all fruits
+  Fruit.find().then(function(fruits) {
+    fruits.forEach(function(fruit) {
+      console.log("Fruit name:", fruit.name);
+      mongoose.connection.close();
+    });
+  }).catch(function(error) {
+    console.log(error);
+  }); 
 });
