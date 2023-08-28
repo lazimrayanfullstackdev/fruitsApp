@@ -22,6 +22,29 @@ mongoose.connection.once('open', () => {
 
   const Fruit = mongoose.model("Fruit", fruitSchema);
 
+  const peopleSchema = new mongoose.Schema({
+    name: String,
+    age: Number,
+    favouriteFruit: fruitSchema
+  });
+
+  const papaya = new Fruit({
+    name: "Papaya",
+    rating: 10,
+    review: "Great for Blood Production"
+  });
+
+  papaya.save();
+
+  const People = mongoose.model("People",peopleSchema);
+
+  // const people = new People({
+  //   name: "Lazim",
+  //   age: 28,
+  //   favouriteFruit: pineapple
+  // });
+
+  //people.save();
   
 //   // const kiwi = new Fruit({
 //   //   name: "Kiwi",
@@ -49,10 +72,10 @@ mongoose.connection.once('open', () => {
 //   // //   console.log(error);
 //   // //   mongoose.connection.close(); // Close the connection on error as well
 //   // // });
-  const jackfruit = new Fruit({
-    rating: 8,
-    review: "Best energetic fruit!."
-  });
+  // const jackfruit = new Fruit({
+  //   rating: 8,
+  //   review: "Best energetic fruit!."
+  // });
 
   Fruit.find().then(function(fruits) {
     fruits.forEach(function(fruit) {
@@ -63,6 +86,11 @@ mongoose.connection.once('open', () => {
     console.log(error);
   });
 
+People.updateOne({name:"John"}, {favouriteFruit: papaya }).then(function(result){
+  console.log("Updated Document");
+}).catch(function(error){
+  console.log(error);
+});
 //   Fruit.updateOne({ _id: "64dc983ff9bea84eef65ed22" }, { name: "Jackfruit" }).then(function(result) {
 //     console.log("Updated Name!");
 //   }).catch(function(error) {
